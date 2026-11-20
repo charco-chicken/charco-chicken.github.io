@@ -1,0 +1,16 @@
+{
+  "name": "تشاركو تشيكن · اطلب أونلاين",
+  "short_name": "تشاركو تشيكن",
+  "description": "اطلب وجبتك من تشاركو تشيكن فرع بنغازي — توصيل أو استلام من الفرع",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#4a1f19",
+  "theme_color": "#4a1f19",
+  "icons": [
+    { "src": "https://charco.sahalnaha.cloud/brand/favicon-tile.png", "sizes": "256x256", "type": "image/png", "purpose": "any" }
+  ]
+}
