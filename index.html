@@ -2,18 +2,54 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>تشاركو تشيكن · اطلب أونلاين</title>
 <meta name="description" content="اطلب وجبتك من تشاركو تشيكن فرع بنغازي — توصيل أو استلام من الفرع">
 <meta name="theme-color" content="#4a1f19">
 <meta property="og:title" content="تشاركو تشيكن · اطلب أونلاين">
 <meta property="og:description" content="اطلب وجبتك من تشاركو تشيكن فرع بنغازي — توصيل أو استلام من الفرع">
 <meta property="og:image" content="https://charco.sahalnaha.cloud/brand/favicon-tile.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="https://charco.sahalnaha.cloud/brand/favicon-tile.png">
 <link rel="apple-touch-icon" href="https://charco.sahalnaha.cloud/brand/favicon-tile.png">
-<style>html,body{margin:0;height:100%;background:#4a1f19}iframe{position:fixed;inset:0;width:100%;height:100%;border:0}</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="تشاركو تشيكن">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+html,body{margin:0;height:100%;background:#4a1f19;font-family:"Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif}
+iframe{position:fixed;inset:0;width:100%;height:100%;border:0}
+#splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#4a1f19;color:#fff;z-index:5;transition:opacity .4s}
+#splash img{width:96px;height:96px;border-radius:22px;margin-bottom:14px}
+#splash b{font-size:20px}
+#install{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:6;display:none;align-items:center;gap:10px;background:#fff;color:#1f1a17;border-radius:16px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:520px;margin:0 auto}
+#install img{width:40px;height:40px;border-radius:10px}
+#install .t{flex:1;font-size:14px;line-height:1.5}
+#install button{border:none;border-radius:10px;padding:9px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+#inBtn{background:#e8501a;color:#fff}#inX{background:#efe6dc;color:#1f1a17}
+</style>
 </head>
 <body>
-<iframe src="https://script.google.com/macros/s/AKfycbwhKx04GJ7dSKSaM9KWlekNYZ9nKrihG77I3rhlP6dj9YSpb3BbdLkySbz0w0ECY1Ag/exec" title="تشاركو تشيكن · اطلب أونلاين" allow="clipboard-write; autoplay; geolocation"></iframe>
+<div id="splash"><img src="https://charco.sahalnaha.cloud/brand/favicon-tile.png" alt=""><b>تشاركو تشيكن</b></div>
+<iframe id="app" src="https://script.google.com/macros/s/AKfycbwhKx04GJ7dSKSaM9KWlekNYZ9nKrihG77I3rhlP6dj9YSpb3BbdLkySbz0w0ECY1Ag/exec" title="تشاركو تشيكن · اطلب أونلاين" allow="clipboard-write; autoplay; geolocation"></iframe>
+<div id="install"><img src="https://charco.sahalnaha.cloud/brand/favicon-tile.png" alt=""><div class="t" id="inText"><b>ثبّت تطبيق تشاركو تشيكن</b><br>اطلب أسرع من شاشتك الرئيسية</div><button id="inBtn">تثبيت</button><button id="inX">✕</button></div>
+<script>
+(function(){
+  var sp = document.getElementById('splash');
+  function hide(){ sp.style.opacity = 0; setTimeout(function(){ sp.style.display = 'none'; }, 400); }
+  document.getElementById('app').addEventListener('load', hide); setTimeout(hide, 6000);
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(function(){});
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  var dismissed = false; try { dismissed = localStorage.getItem('installDismissed') === '1'; } catch(e){}
+  var box = document.getElementById('install'), btn = document.getElementById('inBtn'), deferred = null;
+  function show(){ if (!standalone && !dismissed) setTimeout(function(){ box.style.display = 'flex'; }, 4000); }
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; show(); });
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (ios && !standalone) { document.getElementById('inText').innerHTML = '<b>ثبّت تطبيق تشاركو تشيكن</b><br>اضغط زر المشاركة <b>⎋</b> ثم «إضافة إلى الشاشة الرئيسية»'; btn.style.display = 'none'; show(); }
+  btn.onclick = function(){ if (!deferred) return; deferred.prompt(); deferred.userChoice.finally(function(){ box.style.display = 'none'; deferred = null; }); };
+  document.getElementById('inX').onclick = function(){ box.style.display = 'none'; try { localStorage.setItem('installDismissed', '1'); } catch(e){} };
+  window.addEventListener('appinstalled', function(){ box.style.display = 'none'; });
+})();
+</script>
 </body>
 </html>
